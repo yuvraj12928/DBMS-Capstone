@@ -1,0 +1,11 @@
+{% extends 'base.html' %}{% set title='Employees' %}{% set subtitle='Employee directory and registration' %}
+{% block content %}
+<section class="panel"><div class="panel-heading"><div><h2>Add Employee</h2><p>Enter employee details to register them</p></div></div>
+<form class="form-grid" method="POST" action="{{ url_for('add_employee') }}">
+<label>Full Name<input name="full_name" required maxlength="100" placeholder="Employee full name"></label><label>Email<input name="email" type="email" required maxlength="150" placeholder="name@company.com"></label>
+<label>Phone<input name="phone" maxlength="20" placeholder="Phone number"></label><label>Joining Date<input name="joining_date" type="date" required></label>
+<label>Department<input name="department" required maxlength="80" placeholder="Department"></label><label>Designation<input name="designation" required maxlength="80" placeholder="Job title"></label>
+<div class="form-actions"><button class="button" type="submit">+ Add Employee</button></div></form></section>
+<section class="panel"><div class="panel-heading"><div><h2>Employee Directory</h2><p>{{ employees|length }} employee record(s)</p></div></div><div class="table-wrap"><table><thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Department</th><th>Designation</th><th>Joining Date</th><th>Status</th></tr></thead><tbody>
+{% for e in employees %}<tr><td>#{{ e.employee_id }}</td><td><strong>{{ e.full_name }}</strong></td><td>{{ e.email }}</td><td>{{ e.phone or '—' }}</td><td>{{ e.department }}</td><td>{{ e.designation }}</td><td>{{ e.joining_date }}</td><td><span class="badge {{ 'green' if e.employment_status=='Active' else 'gray' }}">{{ e.employment_status }}</span></td></tr>{% else %}<tr><td colspan="8" class="empty">No employees found.</td></tr>{% endfor %}
+</tbody></table></div></section>{% endblock %}

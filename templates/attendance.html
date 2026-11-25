@@ -1,0 +1,11 @@
+{% extends 'base.html' %}{% set title='Attendance' %}{% set subtitle='Daily attendance records and check-in details' %}
+{% block content %}
+<section class="panel"><div class="panel-heading"><div><h2>Add Attendance Record</h2><p>Record an employee's attendance</p></div></div>
+<form class="form-grid" method="POST" action="{{ url_for('add_attendance') }}">
+<label>Employee<select name="employee_id" required><option value="">Select employee</option>{% for e in employees %}<option value="{{ e.employee_id }}">#{{ e.employee_id }} — {{ e.full_name }}</option>{% endfor %}</select></label><label>Date<input name="attendance_date" type="date" required></label>
+<label>Check-in<input name="check_in" type="time"></label><label>Check-out<input name="check_out" type="time"></label>
+<label>Status<select name="attendance_status" required>{% for s in ['Present','Absent','Half Day','Holiday','Weekly Off'] %}<option>{{ s }}</option>{% endfor %}</select></label><label>Late Minutes<input name="late_minutes" type="number" min="0" value="0"></label>
+<div class="form-actions"><button class="button" type="submit">+ Save Attendance</button></div></form></section>
+<section class="panel"><div class="panel-heading"><div><h2>Attendance Records</h2><p>{{ attendance|length }} record(s)</p></div></div><div class="table-wrap"><table><thead><tr><th>Employee</th><th>Department</th><th>Date</th><th>Check-in</th><th>Check-out</th><th>Status</th><th>Late (min)</th></tr></thead><tbody>
+{% for a in attendance %}<tr><td><strong>{{ a.full_name }}</strong><small class="subtext">#{{ a.employee_id }}</small></td><td>{{ a.department }}</td><td>{{ a.attendance_date }}</td><td>{{ a.check_in or '—' }}</td><td>{{ a.check_out or '—' }}</td><td><span class="badge {{ 'green' if a.attendance_status=='Present' else 'orange' if a.attendance_status=='Half Day' else 'gray' }}">{{ a.attendance_status }}</span></td><td>{{ a.late_minutes }}</td></tr>{% else %}<tr><td colspan="7" class="empty">No attendance records.</td></tr>{% endfor %}
+</tbody></table></div></section>{% endblock %}

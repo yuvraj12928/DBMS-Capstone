@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ title }} | PayrollPro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<aside class="sidebar">
+    <div class="brand">
+        <div class="brand-icon">✦</div>
+        <div>
+            <strong>PayrollPro</strong>
+            <small>Management System</small>
+        </div>
+    </div>
+
+    <div class="profile-card">
+        <img
+    class="profile-avatar"
+    src="https://dpwhatsapp.com/wp-content/uploads/2022/10/girl-profile-picture-07.webp"
+    alt="Profile Picture"
+>
+        <div>
+            <strong>Smith</strong>
+            <small><span class="online-dot"></span> Administrator</small>
+        </div>
+    </div>
+
+    <div class="nav-label">MAIN MENU</div>
+
+    <nav>
+        <a href="{{ url_for('dashboard') }}" class="{{ 'active' if request.endpoint == 'dashboard' else '' }}">
+            <span>⌂</span> Dashboard
+        </a>
+        <a href="{{ url_for('employees_page') }}" class="{{ 'active' if request.endpoint == 'employees_page' else '' }}">
+            <span>♙</span> Employees
+        </a>
+        <a href="{{ url_for('attendance_page') }}" class="{{ 'active' if request.endpoint == 'attendance_page' else '' }}">
+            <span>▦</span> Attendance
+        </a>
+        <a href="{{ url_for('leaves_page') }}" class="{{ 'active' if request.endpoint == 'leaves_page' else '' }}">
+            <span>▤</span> Leaves
+        </a>
+        <a href="{{ url_for('payroll_page') }}" class="{{ 'active' if request.endpoint == 'payroll_page' else '' }}">
+            <span>₹</span> Payroll
+        </a>
+        <a href="{{ url_for('reports_page') }}" class="{{ 'active' if request.endpoint == 'reports_page' else '' }}">
+            <span>▥</span> Reports
+        </a>
+    </nav>
+
+    <div class="sidebar-bottom">
+        <div class="admin-icon">K</div>
+        <div>
+            <strong>Administrator</strong>
+            <small>HR / Admin</small>
+        </div>
+    </div>
+</aside>
+
+<main class="main">
+    <header class="topbar">
+        <div>
+            <div class="page-label">PAYROLL & ATTENDANCE MANAGEMENT</div>
+            <h1>{{ title }}</h1>
+            <p>{{ subtitle }}</p>
+        </div>
+        <div class="top-pill">
+            <span class="online-dot"></span> System Online
+        </div>
+    </header>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-wrap">
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+
+    <footer>
+        Payroll & Attendance Management System
+        <span> | DBMS Capstone Project</span>
+    </footer>
+</main>
+
+</body>
+</html>
